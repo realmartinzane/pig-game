@@ -1,7 +1,6 @@
-var scores, roundScore, activePlayer, gamePlaying;
+var scores, roundScore, activePlayer, gamePlaying, lastRoll;
 
 init();
-
 
 document.querySelector('.btn-roll').addEventListener('click', function()
 {
@@ -13,15 +12,22 @@ document.querySelector('.btn-roll').addEventListener('click', function()
     diceDOM.style.display = 'block';
     diceDOM.src = 'dice-' + dice + '.png';
 
-    if (dice != 1)
+    if (dice == 6 && lastRoll == 6) 
+    {
+        scores[activePlayer] = 0;
+        document.getElementById('score-' + activePlayer).textContent = '0';
+        nextPlayer();
+
+    }
+    else if (dice != 1)
     {
         roundScore += dice;
         document.getElementById('current-' + activePlayer).textContent = roundScore;
     }
     else 
-    {
         nextPlayer();
-    }
+
+    lastRoll = dice;
 });
 
 document.querySelector('.btn-hold').addEventListener('click', function()
@@ -40,9 +46,8 @@ document.querySelector('.btn-hold').addEventListener('click', function()
         gamePlaying = false;
     }
     else 
-    {
         nextPlayer();
-    }
+    
 });
 
 document.querySelector('.btn-new').addEventListener('click', init);
@@ -53,6 +58,7 @@ function init()
     roundScore = 0;
     activePlayer = 0;
     gamePlaying = true;
+    lastRoll = 0;
 
     document.querySelector('.dice').style.display = 'none';
 
@@ -75,6 +81,7 @@ function nextPlayer()
 {
     activePlayer = activePlayer == 0 ? 1 : 0;
     roundScore = 0;
+    lastRoll = 0;
 
     document.getElementById('current-0').textContent = '0';
     document.getElementById('current-1').textContent = '0';
