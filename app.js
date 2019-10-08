@@ -1,4 +1,4 @@
-var scores, roundScore, activePlayer, gamePlaying, lastRoll;
+var scores, roundScore, activePlayer, gamePlaying, lastRoll, finalScore;
 
 init();
 
@@ -37,7 +37,7 @@ document.querySelector('.btn-hold').addEventListener('click', function()
     scores[activePlayer] += roundScore;
     document.getElementById('score-' + activePlayer).textContent = scores[activePlayer];
 
-    if (scores[activePlayer] > 9)
+    if (scores[activePlayer] >= finalScore)
     {
         document.getElementById('name-' + activePlayer).textContent = 'Winner!';
         document.querySelector('.dice').style.display = 'none';
@@ -59,6 +59,12 @@ function init()
     activePlayer = 0;
     gamePlaying = true;
     lastRoll = 0;
+    
+    inputScore = document.querySelector('.final-score').value;
+    if(inputScore > 0 && inputScore < 1000) 
+        finalScore = inputScore;
+    else
+        finalScore = 100;
 
     document.querySelector('.dice').style.display = 'none';
 
